@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="shortcut icon" href="./assets/coin.png" type="image/x-icon" />
+    <title>Mis Números De La Suerte</title>
+  </head>
+  <body>
+    <!--Todo-->
+    <section class="all" id="all">
+      <div class="pop" id="pop"></div>
+      <header class="header" id="header">
+        <h1 class="Title" id="Title">🪙 Mis Números De La Suerte 🪙</h1>
+      </header>
+      <div class="menu" id="menu">
+        <div class="suerte" id="suerte">
+          <input type="number" class="inputS" id="inputS" placeholder="Busca tu número de la suerte" onkeyup="Luck()" onclick="placeRem()" />
+          <!-- <button type="button" id="btnS" class="btnS" onclick="BuscarNumS()">Buscar</button> -->
+        </div>
+        <div class="numRandom" id="numRandom">
+          <button type="button" id="btnR" class="btnR" onclick="aleaOp()">Selección de números aleatorios</button>
+        </div>
+        <div class="DCarrito" id="DCarrito">
+          <button type="button" id="Carrito" class="Carrito" onclick="Carrito()">🛒Carrito de compras</button>
+          <div class="Cont" id="Cont">
+            <div><b class="con" id="con">Seleccionados: 0</b></div>
+            <div><b class="conT" id="conT">Ya Tomados: 0</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="num" id="num"></div>
+    </section>
+    <!--LIBRERIAS-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--DOCUMENTO JS-->
+    <script src="./index.js"></script>
+  </body>
+</html>
