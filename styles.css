@@ -42,7 +42,8 @@ body {
 /*Botones*/
 .suerte,
 .numRandom,
-.DCarrito {
+.DCarrito,
+.ContElim {
   padding: 10px;
   width: auto;
 }

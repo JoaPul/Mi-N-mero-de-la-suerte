@@ -22,6 +22,7 @@ const Take = () => {
 
       for (let i = 0; i < response.length; i++) {
         for (let j = 0; j < response[i].numbers.length; j++) {
+          console.log(response[i].numbers[0]);
           let v = parseInt(response[i].numbers[j].replace("n", "0"));
           indice[v][1] = `
           <div class="NUMT" id="${response[i].numbers[j]}" value="T" onclick="select('${response[i].numbers[j]}')">
@@ -34,11 +35,13 @@ const Take = () => {
       for (let k = 0; k < indice.length; k++) {
         ind += indice[k][1];
       }
+      console.log("si");
       document.getElementById("num").innerHTML = ind;
     } catch (error) {
       console.log(error);
     } finally {
       console.log("esto se ejecutara independiente de si es catch o try");
+
       // console.log(indice[106][1]);
       for (let i = 0; i < indice.length; i++) {
         let a = "";
@@ -204,6 +207,15 @@ const aleaClo = () => {
   `
   );
 };
+const aleaClos = () => {
+  document.getElementById("pop").setAttribute(
+    "style",
+    `
+  z-index: -1;
+  `
+  );
+  inicio();
+};
 
 //ALEATORIO
 const aleat = () => {
@@ -212,7 +224,7 @@ const aleat = () => {
     v = parseInt(v);
     if (v >= 0 && v < 10000) {
       // console.log(v);
-      if (v < indice.length - selected.length - tacken.length) {
+      if (v < indice.length - selected.length - taken.length) {
         // console.log(indice.length - selected.length - tacken.length);
         for (let i = 0; i < v; i++) {
           let chan = true;
@@ -328,4 +340,89 @@ const enviar = () => {
   } else {
     document.getElementById("popEr").innerHTML = "Esa Usuario no se puede usar";
   }
+};
+
+const Elim = () => {
+  console.log(taken.length);
+  document.getElementById("inputS").value = "";
+  Luck();
+  document.getElementById("pop").setAttribute(
+    "style",
+    `
+  z-index: 7;
+  `
+  );
+  document.getElementById("pop").innerHTML = `
+    <div class="popConte" id="popConte">
+      <div class="popCe" id="popCe" onclick="aleaClos()">
+        <p>X</p>
+      </div>
+      <div class="popText" id="popText">
+        <h1 class="popTitle" id="popTitle">Que número quieres eliminar?</h1>
+        <div class="canti" id="canti">
+          <input type="text" class="inputA" id="inputUs" placeholder="Introduce tu usuario" />
+          <input type="password" class="inputA" id="inputCo" placeholder="Introduce tu contraseña"/>
+          <input type="number" class="inputA" id="inputNu" placeholder="Introoduce el número"/>
+          <button class="Listo" id="Listo" onclick="Toma()">Listo</button>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+const Toma = async () => {
+  let config = {
+    method: "get",
+    url: "https://mipesoganador-0de7.restdb.io/rest/items",
+    headers: {
+      "x-api-key": "624e2f3c67937c128d7c95a6",
+    },
+  };
+
+  axios(config)
+    .then(function (response) {
+      for (let i = 0; i < response.data.length; i++) {
+        if (response.data[i].user == document.getElementById("inputUs").value) {
+          if (response.data[i].password == document.getElementById("inputCo").value) {
+            let arr = [];
+            response.data[i].numbers.filter((element) => {
+              if (element != `n${document.getElementById("inputNu").value}`) {
+                arr.push(element);
+              }
+            });
+            console.log[arr];
+            if (arr != response.data[i].numbers) {
+              // "Content-Type": "application/json",
+              let conf = {
+                method: "put",
+                url: `https://mipesoganador-0de7.restdb.io/rest/items/${response.data[i]._id}?x-apikey=624e2f3c67937c128d7c95a6`,
+                headers: {
+                  "x-api-key": "624e2f3c67937c128d7c95a6",
+                },
+                data: {
+                  numbers: arr,
+                },
+              };
+              axios(conf)
+                .then(() => {
+                  document.getElementById("popTitle").innerHTML = "Cambios realizados con exito";
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            } else {
+              document.getElementById("popTitle").innerHTML = "Este número no se encuetra en el perfil del usuario";
+            }
+          } else {
+            document.getElementById("popTitle").innerHTML = "El contraseña esta incorrecta";
+          }
+        } else {
+          document.getElementById("popTitle").innerHTML = "El usuario que mensionas no existe";
+        }
+      }
+    })
+    .catch(function (error) {
+      document.getElementById("popTitle").innerHTML = "Este número no se encuetra en el perfil del usuario";
+      console.log(error);
+    });
 };
