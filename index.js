@@ -2,7 +2,7 @@
 let cuent = { Guapo_03: "1236", Shicuelo35: "malote93", ChicoRudo: "Cacahuate" };
 
 //variables Globales
-let taken = [];
+let taken = 0;
 let selected = [];
 let indice = [];
 
@@ -29,6 +29,7 @@ const Take = () => {
             <p>${response[i].numbers[j].replace("n", "")}</p>
           </div>
           `;
+          taken = j + 1;
         }
       }
       let ind = "";
@@ -41,21 +42,7 @@ const Take = () => {
       console.log(error);
     } finally {
       console.log("esto se ejecutara independiente de si es catch o try");
-
-      // console.log(indice[106][1]);
-      for (let i = 0; i < indice.length; i++) {
-        let a = "";
-        i < 10 ? (a = `000${i}`) : i < 100 ? (a = `00${i}`) : i < 1000 ? (a = `0${i}`) : i < 10000 ? (a = `${i}`) : (a = `${i}`);
-        // console.log(`n${a}`);
-        if (document.getElementById(`n${a}`).getAttribute("value") == "T") {
-          indice[i][1] = `
-      <div class="NUMT" id="n${a}" value="T" onclick="select('n${a}')">
-      <p>${a}</p>
-      </div>`;
-          taken.push(a);
-        }
-      }
-      document.getElementById("conT").innerHTML = `Ya Tomados: ${taken.length}`;
+      document.getElementById("conT").innerHTML = `Ya Tomados: ${taken}`;
     }
   }
 
@@ -64,9 +51,7 @@ const Take = () => {
 
 //INSERCION DE DIVS CON NÚMEROS
 const inicio = () => {
-  document.getElementById("btnR").setAttribute("onclick", "aleaOp()");
   document.getElementById("inputS").value = "";
-  document.getElementById("inputS").setAttribute("onkeyup", "Luck()");
 
   if (indice.length == 0) {
     for (let i = 0; i < 10000; i++) {
@@ -82,13 +67,11 @@ const inicio = () => {
       ]);
     }
   }
-  // else {
-  //   for (let i = 0; i < indice.length; i++) {
-  //     ind += indice[i][1];
-  //   }
-  // }
   document.getElementById("num").innerHTML = "<h1 style='color:white; font-size:25px; display:flex; align-content:center; justify-content:center; align-items: center; width: 100%; height:300px;'>Cargando...<h1>";
   Take();
+  document.getElementById("btnR").setAttribute("onclick", "aleaOp()");
+  document.getElementById("inputS").setAttribute("onkeyup", "Luck()");
+  document.getElementById("Elim").setAttribute("onclick", "Elim()");
 };
 inicio();
 
@@ -224,7 +207,7 @@ const aleat = () => {
     v = parseInt(v);
     if (v >= 0 && v < 10000) {
       // console.log(v);
-      if (v < indice.length - selected.length - taken.length) {
+      if (v < indice.length - selected.length - taken) {
         // console.log(indice.length - selected.length - tacken.length);
         for (let i = 0; i < v; i++) {
           let chan = true;
@@ -257,6 +240,7 @@ const Carrito = () => {
   document.getElementById("inputS").value = "";
   Luck();
   document.getElementById("inputS").setAttribute("onkeyup", "");
+  document.getElementById("Elim").setAttribute("onclick", "");
   document.getElementById("num").innerHTML = `
     <div class="popConte" id="popConte">
       <div class="popCe" id="popCe" onclick="inicio()">
@@ -343,7 +327,7 @@ const enviar = () => {
 };
 
 const Elim = () => {
-  console.log(taken.length);
+  console.log(taken);
   document.getElementById("inputS").value = "";
   Luck();
   document.getElementById("pop").setAttribute(
@@ -378,15 +362,22 @@ const Toma = async () => {
       "x-api-key": "624e2f3c67937c128d7c95a6",
     },
   };
+  document.getElementById("popTitle").innerHTML = "Cargando peticion...";
+  let Us = document.getElementById("inputUs").value;
+  let Cont = document.getElementById("inputCo").value;
+  let Num = document.getElementById("inputNu").value;
+  document.getElementById("inputNu").value = "";
+  document.getElementById("inputCo").value = "";
+  document.getElementById("inputUs").value = "";
 
   axios(config)
     .then(function (response) {
       for (let i = 0; i < response.data.length; i++) {
-        if (response.data[i].user == document.getElementById("inputUs").value) {
-          if (response.data[i].password == document.getElementById("inputCo").value) {
+        if (response.data[i].user == Us) {
+          if (response.data[i].password == Cont) {
             let arr = [];
             response.data[i].numbers.filter((element) => {
-              if (element != `n${document.getElementById("inputNu").value}`) {
+              if (element != `n${Num}`) {
                 arr.push(element);
               }
             });
@@ -405,7 +396,7 @@ const Toma = async () => {
               };
               axios(conf)
                 .then(() => {
-                  document.getElementById("popTitle").innerHTML = "Cambios realizados con exito";
+                  document.getElementById("popTitle").innerHTML = `El número ${Num} ha sido Eliminado de tu cuenta`;
                 })
                 .catch((error) => {
                   console.log(error);
