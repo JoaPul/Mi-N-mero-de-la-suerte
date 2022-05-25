@@ -11,9 +11,13 @@ Esta es una página para seleccionar tus números de la suerte.
 FrotEnd:
 
 1.HTML
+
 2.CSS
+
 3.JavaScript
+
 4.AXIOS(Peticiones Post,Put,Get)
+
 5.API creada en (https://restdb.io/)
 
 ### Endpoints API
