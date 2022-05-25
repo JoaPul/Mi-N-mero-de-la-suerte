@@ -7,7 +7,9 @@ Esta es una página para seleccionar tus números de la suerte.
 [![Watch the video](https://i.imgur.com/DNgP7FG.png)](https://youtu.be/qa4BtIJmFNE)
 
 ## Stack Tecnológico 
+
 FrotEnd:
+
 1.HTML
 2.CSS
 3.JavaScript
